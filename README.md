@@ -3,56 +3,43 @@
 This is a full-stack Next.js application implementing authentication features such as signup, login, password reset, email verification, and Google authentication using Next Auth. The project uses TypeScript, Tailwind CSS, and a MongoDB database.
 
 ## Project Structure
+.
+├── next.config.js
+├── next-env.d.ts
+├── package.json
+├── public
+│   ├── next.svg
+│   └── vercel.svg
 ├── src
-│   ├── app
-│   │   ├── api
-│   │   │   ├── auth
-│   │   │   │   └── [...nextauth]
-│   │   │   │       └── route.js
-│   │   │   └── users
-│   │   │       ├── forgot-password
-│   │   │       │   └── route.ts
-│   │   │       ├── login
-│   │   │       │   └── route.ts
-│   │   │       ├── logout
-│   │   │       │   └── route.ts
-│   │   │       ├── me
-│   │   │       │   └── route.ts
-│   │   │       ├── reset-password
-│   │   │       │   └── route.ts
-│   │   │       ├── signup
-│   │   │       │   └── route.ts
-│   │   │       └── verifyemail
-│   │   │           └── route.ts
-│   │   ├── favicon.ico
-│   │   ├── forgot-password
-│   │   │   └── page.tsx
-│   │   ├── globals.css
-│   │   ├── layout.tsx
-│   │   ├── login
-│   │   │   └── page.tsx
-│   │   ├── page.tsx
-│   │   ├── profile
-│   │   │   ├── [id]
-│   │   │   │   └── page.tsx
-│   │   │   └── page.tsx
-│   │   ├── reset-password
-│   │   │   └── page.jsx
-│   │   ├── signup
-│   │   │   └── page.tsx
-│   │   └── verifyemail
-│   │       └── page.tsx
-│   ├── components
-│   │   └── SessionProviderWrapper.tsx
-│   ├── dbConfig
-│   │   └── dbConfig.ts
-│   ├── helpers
-│   │   ├── getDataFromToken.ts
-│   │   ├── mailer-reset.ts
-│   │   └── mailer.ts
-│   ├── middleware.ts
-│   └── models
-│       └── userModel.js
+│   ├── app
+│   │   ├── api
+│   │   │   ├── auth
+│   │   │   │   └── [...nextauth] # NextAuth configuration
+│   │   │   └── users
+│   │   │       ├── login         # Login API
+│   │   │       ├── signup        # Signup API
+│   │   │       ├── me            # Fetch logged-in user data
+│   │   │       ├── forgot-password # Password reset request
+│   │   │       ├── reset-password # Password reset logic
+│   │   │       └── verifyemail   # Email verification logic
+│   │   ├── login                 # Login page
+│   │   ├── signup                # Signup page
+│   │   ├── profile               # User profile pages
+│   │   └── verifyemail           # Email verification page
+│   ├── components
+│   │   └── SessionProviderWrapper.tsx # Context provider for authentication
+│   ├── dbConfig
+│   │   └── dbConfig.ts           # MongoDB connection setup
+│   ├── helpers
+│   │   ├── getDataFromToken.ts    # Helper to extract data from JWT
+│   │   ├── mailer-reset.ts        # Email helper for password reset
+│   │   └── mailer.ts              # General email helper
+│   └── models
+│       └── userModel.js           # User schema for MongoDB
+├── tailwind.config.js
+├── tsconfig.json
+└── README.md
+
 
 ## Features
 
