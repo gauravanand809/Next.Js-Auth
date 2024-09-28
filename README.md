@@ -86,7 +86,7 @@ cd your-repo
 npm install
 ```
 ### 3. Setup environment variables
-Create a .env.local file in the root directory and configure the following environment variables:
+- Create a .env.local file in the root directory and configure the following environment variables:
 
 ```bash
 NEXTAUTH_URL=http://localhost:3000
@@ -111,12 +111,12 @@ npm run dev
 - POST /api/users/verifyemail: Verify the user's email address
 
 ### How to Contribute
--Fork the project
--Create your feature branch: git checkout -b feature/my-feature
--Commit your changes: git commit -m 'Add some feature'
--Push to the branch: git push origin feature/my-feature
--Open a pull request
+- Fork the project
+- Create your feature branch: git checkout -b feature/my-feature
+- Commit your changes: git commit -m 'Add some feature'
+- Push to the branch: git push origin feature/my-feature
+- Open a pull request
 
 ### License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+- This project is licensed under the MIT License. See the LICENSE file for more details.
 
