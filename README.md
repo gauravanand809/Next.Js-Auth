@@ -3,44 +3,10 @@
 This is a full-stack Next.js application implementing authentication features such as signup, login, password reset, email verification, and Google authentication using Next Auth. The project uses TypeScript, Tailwind CSS, and a MongoDB database.
 
 ## Project Structure
-.
-├── next.config.js
-├── next-env.d.ts
-├── package.json
-├── public
-│   ├── next.svg
-│   └── vercel.svg
-├── src
-│   ├── app
-│   │   ├── api
-│   │   │   ├── auth
-│   │   │   │   └── [...nextauth] # NextAuth configuration
-│   │   │   └── users
-│   │   │       ├── login         # Login API
-│   │   │       ├── signup        # Signup API
-│   │   │       ├── me            # Fetch logged-in user data
-│   │   │       ├── forgot-password # Password reset request
-│   │   │       ├── reset-password # Password reset logic
-│   │   │       └── verifyemail   # Email verification logic
-│   │   ├── login                 # Login page
-│   │   ├── signup                # Signup page
-│   │   ├── profile               # User profile pages
-│   │   └── verifyemail           # Email verification page
-│   ├── components
-│   │   └── SessionProviderWrapper.tsx # Context provider for authentication
-│   ├── dbConfig
-│   │   └── dbConfig.ts           # MongoDB connection setup
-│   ├── helpers
-│   │   ├── getDataFromToken.ts    # Helper to extract data from JWT
-│   │   ├── mailer-reset.ts        # Email helper for password reset
-│   │   └── mailer.ts              # General email helper
-│   └── models
-│       └── userModel.js           # User schema for MongoDB
-├── tailwind.config.js
-├── tsconfig.json
-└── README.md
+```
+. ├── next.config.js ├── next-env.d.ts ├── package.json ├── public │ ├── next.svg │ └── vercel.svg ├── src │ ├── app │ │ ├── api │ │ │ ├── auth │ │ │ │ └── [...nextauth] # NextAuth configuration │ │ │ └── users │ │ │ ├── login # Login API │ │ │ ├── signup # Signup API │ │ │ ├── me # Fetch logged-in user data │ │ │ ├── forgot-password # Password reset request │ │ │ ├── reset-password # Password reset logic │ │ │ └── verifyemail # Email verification logic │ │ ├── login # Login page │ │ ├── signup # Signup page │ │ ├── profile # User profile pages │ │ └── verifyemail # Email verification page │ ├── components │ │ └── SessionProviderWrapper.tsx # Context provider for authentication │ ├── dbConfig │ │ └── dbConfig.ts # MongoDB connection setup │ ├── helpers │ │ ├── getDataFromToken.ts # Helper to extract data from JWT │ │ ├── mailer-reset.ts # Email helper for password reset │ │ └── mailer.ts # General email helper │ └── models │ └── userModel.js # User schema for MongoDB ├── tailwind.config.js ├── tsconfig.json └── README.md
 
-
+```
 ## Features
 
 - **Authentication**: User authentication with support for Google OAuth via Next Auth.
