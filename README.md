@@ -3,9 +3,56 @@
 This is a full-stack Next.js application implementing authentication features such as signup, login, password reset, email verification, and Google authentication using Next Auth. The project uses TypeScript, Tailwind CSS, and a MongoDB database.
 
 ## Project Structure
-
-. ├── next.config.js # Next.js configuration file ├── next-env.d.ts # Next.js environment type definitions ├── package.json # Project metadata and dependencies ├── package-lock.json # Lockfile for dependencies ├── postcss.config.js # PostCSS configuration for Tailwind ├── public # Public assets (images, icons, etc.) │   ├── next.svg │   └── vercel.svg ├── README.md # Project documentation ├── src │   ├── app │   │   ├── api │   │   │   ├── auth │   │   │   │   └── [...nextauth] # NextAuth routes for authentication │   │   │   │   └── route.js │   │   │   └── users # User-related API routes │   │   │   ├── forgot-password │   │   │   │   └── route.ts │   │   │   ├── login │   │   │   │   └── route.ts │   │   │   ├── logout │   │   │   │   └── route.ts │   │   │   ├── me │   │   │   │   └── route.ts │   │   │   ├── reset-password │   │   │   │   └── route.ts │   │   │   ├── signup │   │   │   │   └── route.ts │   │   │   └── verifyemail │   │   │   └── route.ts │   │   ├── favicon.ico # Favicon for the website │   │   ├── forgot-password │   │   │   └── page.tsx # Forgot password page │   │   ├── globals.css # Global CSS file for Tailwind │   │   ├── layout.tsx # Default layout component │   │   ├── login │   │   │   └── page.tsx # Login page │   │   ├── page.tsx # Default homepage │   │   ├── profile # Profile page │   │   │   ├── [id] │   │   │   │   └── page.tsx # Dynamic profile page based on user ID │   │   │   └── page.tsx │   │   ├── reset-password │   │   │   └── page.tsx # Password reset page │   │   ├── signup │   │   │   └── page.tsx # Signup page │   │   └── verifyemail │   │   └── page.tsx # Email verification page │   ├── components │   │   └── SessionProviderWrapper.tsx # Session provider for Next Auth │   ├── dbConfig │   │   └── dbConfig.ts # MongoDB configuration │   ├── helpers │   │   ├── getDataFromToken.ts # Helper to extract data from JWT tokens │   │   ├── mailer-reset.ts # Helper to send reset password emails │   │   └── mailer.ts # Helper to send emails │   ├── middleware.ts # Middleware for request handling │   └── models │   └── userModel.js # Mongoose model for the User schema ├── structure.txt # File structure of the project ├── tailwind.config.js # Tailwind CSS configuration └── tsconfig.json # TypeScript configuration
-
+├── src
+│   ├── app
+│   │   ├── api
+│   │   │   ├── auth
+│   │   │   │   └── [...nextauth]
+│   │   │   │       └── route.js
+│   │   │   └── users
+│   │   │       ├── forgot-password
+│   │   │       │   └── route.ts
+│   │   │       ├── login
+│   │   │       │   └── route.ts
+│   │   │       ├── logout
+│   │   │       │   └── route.ts
+│   │   │       ├── me
+│   │   │       │   └── route.ts
+│   │   │       ├── reset-password
+│   │   │       │   └── route.ts
+│   │   │       ├── signup
+│   │   │       │   └── route.ts
+│   │   │       └── verifyemail
+│   │   │           └── route.ts
+│   │   ├── favicon.ico
+│   │   ├── forgot-password
+│   │   │   └── page.tsx
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── login
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   ├── profile
+│   │   │   ├── [id]
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── reset-password
+│   │   │   └── page.jsx
+│   │   ├── signup
+│   │   │   └── page.tsx
+│   │   └── verifyemail
+│   │       └── page.tsx
+│   ├── components
+│   │   └── SessionProviderWrapper.tsx
+│   ├── dbConfig
+│   │   └── dbConfig.ts
+│   ├── helpers
+│   │   ├── getDataFromToken.ts
+│   │   ├── mailer-reset.ts
+│   │   └── mailer.ts
+│   ├── middleware.ts
+│   └── models
+│       └── userModel.js
 
 ## Features
 
@@ -52,13 +99,13 @@ npm run dev
 ```
 
 ### API Endpoints
--POST /api/users/signup: Register a new user
--POST /api/users/login: Login with email and password
--POST /api/users/logout: Logout the current user
--GET /api/users/me: Fetch the current user's profile
--POST /api/users/forgot-password: Request a password reset link
--POST /api/users/reset-password: Reset the user's password
--POST /api/users/verifyemail: Verify the user's email address
+- POST /api/users/signup: Register a new user
+- POST /api/users/login: Login with email and password
+- POST /api/users/logout: Logout the current user
+- GET /api/users/me: Fetch the current user's profile
+- POST /api/users/forgot-password: Request a password reset link
+- POST /api/users/reset-password: Reset the user's password
+- POST /api/users/verifyemail: Verify the user's email address
 
 ### How to Contribute
 -Fork the project
