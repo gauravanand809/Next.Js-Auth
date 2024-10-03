@@ -23,8 +23,12 @@
 │   │   │       │   └── route.ts
 │   │   │       ├── me
 │   │   │       │   └── route.ts
+│   │   │       ├── otp
+│   │   │       │   └── route.js
 │   │   │       ├── reset-password
 │   │   │       │   └── route.ts
+│   │   │       ├── search
+│   │   │       │   └── route.js
 │   │   │       ├── signup
 │   │   │       │   └── route.ts
 │   │   │       └── verifyemail
@@ -43,6 +47,8 @@
 │   │   │   └── page.tsx
 │   │   ├── reset-password
 │   │   │   └── page.jsx
+│   │   ├── search
+│   │   │   └── page.tsx
 │   │   ├── signup
 │   │   │   └── page.tsx
 │   │   └── verifyemail
@@ -54,12 +60,14 @@
 │   ├── helpers
 │   │   ├── getDataFromToken.ts
 │   │   ├── mailer-reset.ts
-│   │   └── mailer.ts
+│   │   ├── mailer.ts
+│   │   └── otp_mail.ts
 │   ├── middleware.ts
 │   └── models
+│       ├── companyModel.js
 │       └── userModel.js
 ├── structure.txt
 ├── tailwind.config.js
 └── tsconfig.json
 
-26 directories, 37 files
+29 directories, 42 files
