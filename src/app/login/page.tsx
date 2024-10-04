@@ -32,11 +32,12 @@ export default function LoginPage() {
 
       const isVerified = response.data.users.isVerified;
       console.log(isVerified);
-
+      console.log(response.data.users.email);
       // Check if the email is verified
-      if (isVerified === true) {
+      if (isVerified) {
         toast.success("Login successful");
-        router.push("/verify-otp"); // Redirect to profile if verified
+        router.push(`/verify-otp?email=${response.data.users.email}`);
+          // Redirect to OTP verification if verified
       } else {
         // Redirect to verification page and send verification email
         toast.success(
@@ -122,8 +123,7 @@ export default function LoginPage() {
             disabled={buttonDisabled}
             className={`w-full p-3 bg-blue-600 text-white rounded-lg transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 ${
               buttonDisabled ? "cursor-not-allowed opacity-50" : ""
-            }` 
-          }
+            }`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>

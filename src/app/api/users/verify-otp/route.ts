@@ -1,7 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
+
 connect();
 
 interface User {
@@ -12,31 +12,35 @@ interface User {
   save: () => Promise<void>;
 }
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const { email, otp } = req.body;
-
-  if (!email || !otp) {
-    return res.status(400).json({ error: 'Email and OTP are required' });
-  }
-
+// Named export for POST method
+export async function POST(req: NextRequest) {
   try {
-    await connect(); // Connect to your DB (MongoDB, etc.)
+    const body = await req.json();
+    const { email, otp } = body;
+
+    if (!email || !otp) {
+      return NextResponse.json({ error: 'Email and OTP are required' }, { status: 400 });
+    }
+    console.log(email,otp);
     
-    // Find user by email
-    const user: User | null = await User.findOne({ email });
+    const user: User | null = await User.findOne({ email:email });
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
+    console.log(user.email,user.otp,user.otpExpiry);
     // Check if OTP is valid
     if (user.otp !== otp) {
-      return res.status(400).json({ error: 'Invalid OTP' });
+      return NextResponse.json({ error: 'Invalid OTP' }, { status: 400 });
     }
-
-    // Check if OTP has expired (assuming you set an expiration date)
+    
+    // Check if OTP has expired
     const otpExpirationTime = new Date(user.otpExpiry || "");
+    console.log("Stored OTP:", user.otp);
+    console.log("Current time:", new Date());
+    console.log("OTP Expiry time:", otpExpirationTime);
     if (otpExpirationTime < new Date()) {
-      return res.status(400).json({ error: 'OTP has expired' });
+      return NextResponse.json({ error: 'OTP has expired' }, { status: 400 });
     }
 
     // If OTP is valid and not expired, mark the user as verified
@@ -45,9 +49,14 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     user.otpExpiry = undefined;
     await user.save();
 
-    res.status(200).json({ message: 'OTP verified successfully, email verified!' });
+    return NextResponse.json({ message: 'OTP verified successfully, email verified!',
+      success:true,
+     }, { status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Something went wrong' });
+    return NextResponse.json(
+      { error: "Something went wrong", success: false },
+      { status: 500 }
+    );
   }
 }

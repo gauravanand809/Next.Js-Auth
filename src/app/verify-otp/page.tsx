@@ -3,29 +3,39 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useSearchParams } from 'next/navigation'; // Import useSearchParams
 
-export default function OTPVerifyPage() {
-  const router = useRouter();
+interface OTPVerifyPageProps {
+  email: string;
+}
+
+export default function OTPVerifyPage({ email }: OTPVerifyPageProps) {
+  const router = useRouter(); const searchParams = useSearchParams(); 
+  const pemail = searchParams.get("email");
   const [otp, setOtp] = useState("");
-  const [email, setEmail] = useState(""); // Extract the email from query params
   const [loading, setLoading] = useState(false);
-
+  console.log(pemail);
   const handleOTPVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const response = await axios.post("/api/users/verify-otp", { email, otp });
+    try {console.log("Email:", pemail, "OTP:", otp);
+
+      const response = await axios.post("/api/users/verify-otp", {
+        email:pemail,
+        otp:otp,
+      });
 
       if (response.data.success) {
         toast.success("OTP verified! Redirecting to profile...");
+        setOtp(""); // Reset OTP input
         router.push("/profile");
       } else {
         toast.error("Invalid OTP");
       }
-    } catch (error) {
-      console.error("OTP verification error", error);
-      toast.error("Failed to verify OTP");
+    } catch (error: any) {
+      console.error("OTP verification error:", error);
+      toast.error(error.response?.data?.error || "Failed to verify OTP");
     } finally {
       setLoading(false);
     }
@@ -40,7 +50,10 @@ export default function OTPVerifyPage() {
         <hr className="mb-6" />
 
         <form onSubmit={handleOTPVerify}>
-          <label htmlFor="otp" className="block text-gray-700 font-semibold mb-2">
+          <label
+            htmlFor="otp"
+            className="block text-gray-700 font-semibold mb-2"
+          >
             OTP
           </label>
           <input
@@ -56,6 +69,7 @@ export default function OTPVerifyPage() {
           <button
             type="submit"
             className="w-full p-3 bg-blue-600 text-white rounded-lg transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
+            disabled={loading} // Disable button while loading
           >
             {loading ? "Verifying OTP..." : "Verify OTP"}
           </button>

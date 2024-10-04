@@ -20,7 +20,8 @@ export const sendEmail = async ({ email, userId }: any) => {
 
     const user = await User.findOne({email:email});
     user.otp = otp;
-    user.otpExpiry = Date.now()+360000;
+    user.otpExpiry = Date.now()+3600000;
+    await user.save();
     // Create the transporter for sending email via SMTP
     const transport = nodemailer.createTransport({
       host: process.env.SMTP_HOST,

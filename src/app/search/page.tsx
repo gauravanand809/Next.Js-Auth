@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const GraphSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,21 +12,30 @@ const GraphSearch: React.FC = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchClick = async () => {
-    try {
-      const response = await axios.get(`/api/users/search`, {
-        params: { companyName: searchTerm },
-      });
+const handleSearchClick = async () => {
+  // console.log(searchTerm);
+  try {
+    const response = await axios.post(`/api/users/search`, {
+      companyName: searchTerm, // Ensure companyName is sent as a JSON key
+    },{
+  headers: {
+    'Content-Type': 'application/json', // This ensures the server understands the request format
+  }});
 
-      // Update the companyDetails state with the response data
-      setCompanyDetails(response.data);
-      setError(""); // Clear error state if the request is successful
-    } catch (error: any) {
-      setCompanyDetails(null); // Clear previous company details if there's an error
-      setError("Error fetching company details. Please try again.");
-      console.error("Error fetching data: ", error);
-    }
-  };
+    // Update the companyDetails state with the response data
+    setCompanyDetails(response.data);
+    setError("");
+    
+    
+    // Clear error state if the request is successful
+  } catch (error: any) {
+    setCompanyDetails(null); // Clear previous company details if there's an error
+    setError("Error fetching company details. Please try again.");
+    console.error("Error fetching data: ", error);
+  }
+};
+
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500">

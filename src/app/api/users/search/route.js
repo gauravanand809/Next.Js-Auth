@@ -1,18 +1,18 @@
-import { connect } from "@/dbConfig/dbConfig";
+import { connect } from "@/dbConfig/dbConfig"; 
 import { Company } from "../../../../models/companyModel";
 
 connect();
 
-export async function GET(req) {
+export async function POST(req) {
   try {
-    const { searchParams } = new URL(req.url);
-    const companyName = searchParams.get("companyName");
-
+    const { companyName } = await req.json();
+    // const body = await req.json();
+    console.log("Incoming request body:", companyName);
     // Check if companyName is provided
     if (!companyName) {
       return new Response(
         JSON.stringify({ message: "Please provide a company name" }),
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -26,13 +26,13 @@ export async function GET(req) {
 
     return new Response(JSON.stringify(companyDetail), { status: 200 });
   } catch (error) {
-    console.log("Error at search route.ts");
+    console.log("Error at search route.js", error);
     return new Response(
       JSON.stringify({
         error: "An error occurred while fetching company details",
         details: error.message,
       }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
