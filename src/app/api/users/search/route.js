@@ -1,6 +1,6 @@
 import { connect } from "@/dbConfig/dbConfig"; 
-import { Company } from "../../../../models/companyModel";
-
+// import { Company } from "../../../../models/companyModel";
+import Company from "@/models/companyModel";
 connect();
 
 export async function POST(req) {

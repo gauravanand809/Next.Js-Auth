@@ -18,7 +18,8 @@
 # misc
 .DS_Store
 *.pem
-
+csvjson.json
+mongoDB_data.js
 # debug
 npm-debug.log*
 yarn-debug.log*

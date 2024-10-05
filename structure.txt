@@ -1,4 +1,6 @@
 .
+├── csvjson (1).json
+├── mongoDB_data.js
 ├── next.config.js
 ├── next-env.d.ts
 ├── package.json
@@ -31,7 +33,9 @@
 │   │   │       │   └── route.js
 │   │   │       ├── signup
 │   │   │       │   └── route.ts
-│   │   │       └── verifyemail
+│   │   │       ├── verifyemail
+│   │   │       │   └── route.ts
+│   │   │       └── verify-otp
 │   │   │           └── route.ts
 │   │   ├── favicon.ico
 │   │   ├── forgot-password
@@ -51,7 +55,9 @@
 │   │   │   └── page.tsx
 │   │   ├── signup
 │   │   │   └── page.tsx
-│   │   └── verifyemail
+│   │   ├── verifyemail
+│   │   │   └── page.tsx
+│   │   └── verify-otp
 │   │       └── page.tsx
 │   ├── components
 │   │   └── SessionProviderWrapper.tsx
@@ -68,6 +74,7 @@
 │       └── userModel.js
 ├── structure.txt
 ├── tailwind.config.js
+├── test.js
 └── tsconfig.json
 
-29 directories, 42 files
+31 directories, 47 files
