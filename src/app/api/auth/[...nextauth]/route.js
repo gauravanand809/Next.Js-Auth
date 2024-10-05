@@ -3,7 +3,11 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import { getSession } from "next-auth/react";
 import { cookies } from "next/headers"; // Using Next.js cookies API
-
+import bcryptjs from "bcryptjs";
+import { v4 as uuidv4 } from 'uuid';
+import User from "@/models/userModel";
+import {connect} from '@/dbConfig/dbConfig'
+connect();
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -27,12 +31,32 @@ export const authOptions = {
       // Here you can set the cookie after the session is created
       // The token from NextAuth JWT can be passed into the cookie if needed
       const cookieStore = cookies();
+      const usrpwd = uuidv4();
+      const passwd = bcrypt.hashSync(usrpwd, 10);
+      try {
+        await User.create({
+          // Await user creation
+          username: usrpwd,
+          password: passwd, // Store the hashed password
+          email: session.user.email, // Access email correctly
+        });
+      } catch (error) {
+        console.error("Error creating user:", error); // Log any errors
+      }
       cookieStore.set("token", token, {
         path: "/",
         httpOnly: true, // Prevent access via JavaScript
         secure: process.env.NODE_ENV === "production", // Only HTTPS in production
         sameSite: "lax", // Cross-site cookie policy
       });
+
+      cookieStore.set("user_email", session.user.email, {
+            // Save email in cookie
+       path: "/",
+       httpOnly: false, // Set to true if you want to restrict access via JavaScript
+       secure: process.env.NODE_ENV === "production",
+       sameSite: "lax",
+          });
       return session;
     },
     async redirect({ url, baseUrl }) {

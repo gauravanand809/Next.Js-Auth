@@ -9,7 +9,7 @@ import StockPriceComparisonChart from "@/components/graphs/globalstock";
 import MarketShareChart from "@/components/graphs/market";
 import SearchableDropdown from "../../helpers/searchableDrop";
 import { companyData } from "../../../csvjsona";
-// const [a, b] = useState("");
+import History from "../../components/compo/history";
 
 const GraphSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,19 +17,18 @@ const GraphSearch: React.FC = () => {
   const [error, setError] = useState("");
   const [showGraph, setShowGraph] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [companies, setCompanies] = useState<string[]>([]); // Array to hold company names
-  const [filteredCompanies, setFilteredCompanies] = useState<string[]>([]); // Array to hold filtered company names
-  const [searchType, setSearchType] = useState("Company"); // Default search type
-  const [curr,setcurr]  = useState("Loading.... ")
-  // Load company names from the JSON file on component mount
+  const [companies, setCompanies] = useState<string[]>([]);
+  const [filteredCompanies, setFilteredCompanies] = useState<string[]>([]);
+  const [searchType, setSearchType] = useState("Company");
+  const [curr, setCurr] = useState("Loading");
+
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get("/path/to/csvjsona.js"); // Update with your actual path
-        const companyNames = response.data.map(
+        const response = companyData;
+        const companyNames = response.map(
           (item: { Company: string }) => item.Company
         );
-        console.log("Fetched companies:", companyNames); // Debugging log
         setCompanies(companyNames);
       } catch (error) {
         console.error("Error fetching companies: ", error);
@@ -39,7 +38,6 @@ const GraphSearch: React.FC = () => {
     fetchCompanies();
   }, []);
 
-  // Update filtered companies based on search term
   useEffect(() => {
     if (searchTerm) {
       const filtered = companies.filter((company) =>
@@ -70,16 +68,32 @@ const GraphSearch: React.FC = () => {
     }
   };
 
-  const handleAnalyzeClick = () => {
+  const handleAnalyzeClick = async () => {
     setLoading(true);
     setShowGraph(false);
 
-    setTimeout(() => {
-      setShowGraph(true);
-      setLoading(false);
-    }, 5000);
+    // Prepare data for history logging
+// Replace with actual user ID from your state or context
+    const pageUrl = window.location.href; // Get the current page URL
+    const timestamp = new Date().toISOString(); // Current timestamp
 
-    console.log("Analyze data with graph", companyDetails);
+    // Send history data to API
+    try {
+      setTimeout(() => {
+        setShowGraph(true);
+        setLoading(false);
+      }, 5000);
+      await axios.post("/api/users/history", {
+        pageUrl,
+        timestamp,
+        searchTerm, // Pass the search term for the company name
+      });
+
+
+      console.log("Analyze data with graph", companyDetails);
+    } catch (error) {
+      console.error("Error recording history:", error);
+    }
   };
 
   return (
@@ -110,14 +124,14 @@ const GraphSearch: React.FC = () => {
           {/* Filtered Companies Dropdown */}
           {filteredCompanies.length > 0 && (
             <div className="mt-2 border border-gray-300 rounded-lg max-h-40 overflow-y-auto bg-white">
-              <ul>
+              <ul className="bg-indigo-100 rounded-lg">
                 {filteredCompanies.map((company, index) => (
                   <li
                     key={index}
-                    className="p-2 hover:bg-indigo-200 cursor-pointer"
+                    className="p-2 bg-indigo-50 hover:bg-indigo-200 text-gray-900 cursor-pointer transition-colors duration-300 rounded-lg"
                     onClick={() => {
                       setSearchTerm(company);
-                      setFilteredCompanies([]); // Clear filtered companies after selection
+                      setFilteredCompanies([]);
                     }}
                   >
                     {company}

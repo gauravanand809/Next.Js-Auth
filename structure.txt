@@ -1,5 +1,5 @@
 .
-├── csvjsona.json
+├── csvjsona.js
 ├── csvjson.json
 ├── mongoDB_data.js
 ├── next.config.js
@@ -54,6 +54,8 @@
 │   │   │   └── page.jsx
 │   │   ├── search
 │   │   │   └── page.tsx
+│   │   ├── seee
+│   │   │   └── page.jsx
 │   │   ├── signup
 │   │   │   └── page.tsx
 │   │   ├── verifyemail
@@ -68,6 +70,7 @@
 │   │   │   ├── market.jsx
 │   │   │   ├── revenue.jsx
 │   │   │   └── stock.jsx
+│   │   ├── search.module.css
 │   │   └── SessionProviderWrapper.tsx
 │   ├── dbConfig
 │   │   └── dbConfig.ts
@@ -75,7 +78,8 @@
 │   │   ├── getDataFromToken.ts
 │   │   ├── mailer-reset.ts
 │   │   ├── mailer.ts
-│   │   └── otp_mail.ts
+│   │   ├── otp_mail.ts
+│   │   └── searchableDrop.js
 │   ├── middleware.ts
 │   └── models
 │       ├── companyModel.js
@@ -85,4 +89,4 @@
 ├── test.js
 └── tsconfig.json
 
-32 directories, 54 files
+33 directories, 57 files
