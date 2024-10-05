@@ -1,5 +1,6 @@
 .
-├── csvjson (1).json
+├── csvjsona.json
+├── csvjson.json
 ├── mongoDB_data.js
 ├── next.config.js
 ├── next-env.d.ts
@@ -60,6 +61,13 @@
 │   │   └── verify-otp
 │   │       └── page.tsx
 │   ├── components
+│   │   ├── graphs
+│   │   │   ├── diversity.jsx
+│   │   │   ├── expense.jsx
+│   │   │   ├── globalstock.jsx
+│   │   │   ├── market.jsx
+│   │   │   ├── revenue.jsx
+│   │   │   └── stock.jsx
 │   │   └── SessionProviderWrapper.tsx
 │   ├── dbConfig
 │   │   └── dbConfig.ts
@@ -77,4 +85,4 @@
 ├── test.js
 └── tsconfig.json
 
-31 directories, 47 files
+32 directories, 54 files

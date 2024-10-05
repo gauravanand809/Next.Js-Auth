@@ -1,22 +1,21 @@
-import { connect } from "@/dbConfig/dbConfig"; 
-// import { Company } from "../../../../models/companyModel";
+import { connect } from "@/dbConfig/dbConfig";
 import Company from "@/models/companyModel";
 connect();
 
 export async function POST(req) {
   try {
     const { companyName } = await req.json();
-    // const body = await req.json();
     console.log("Incoming request body:", companyName);
-    // Check if companyName is provided
     if (!companyName) {
       return new Response(
         JSON.stringify({ message: "Please provide a company name" }),
         { status: 400 }
       );
     }
-
-    const companyDetail = await Company.findOne({ Company: companyName });
+    console.log(companyName);
+    const companyDetail = await Company.findOne({
+      Company: { $regex: new RegExp(`^${companyName}$`, "i") }, // Case-insensitive regex
+    });
 
     if (!companyDetail) {
       return new Response(JSON.stringify({ message: "Company not found" }), {
