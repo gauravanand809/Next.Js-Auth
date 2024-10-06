@@ -1,15 +1,12 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import DiversityComparisonChart from "@/components/graphs/diversity";
-import ExpensesChart from "@/components/graphs/expense";
-import RevenueChart from "@/components/graphs/revenue";
-import WrappedStockPriceChart from "@/components/graphs/stock";
-import StockPriceComparisonChart from "@/components/graphs/globalstock";
 import MarketShareChart from "@/components/graphs/market";
-import SearchableDropdown from "../../helpers/searchableDrop";
+import WrappedStockPriceChart from "@/components/graphs/stock";
+import RevenueChart from "@/components/graphs/revenue";
+import ExpensesChart from "@/components/graphs/expense";
 import { companyData } from "../../../csvjsona";
-import History from "../../components/compo/history";
+import History from "../../components/compo/history"; // Import your History component here
 
 const GraphSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,8 +16,7 @@ const GraphSearch: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [companies, setCompanies] = useState<string[]>([]);
   const [filteredCompanies, setFilteredCompanies] = useState<string[]>([]);
-  const [searchType, setSearchType] = useState("Company");
-  const [curr, setCurr] = useState("Loading");
+  const [history, setHistory] = useState<any[]>([]); // State to store user's history
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -49,6 +45,20 @@ const GraphSearch: React.FC = () => {
     }
   }, [searchTerm, companies]);
 
+  // Fetch the user's history on component mount
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const response = await axios.get("/api/users/history"); // Assuming this endpoint returns history
+        setHistory(response.data); // Save the history data
+      } catch (error) {
+        console.error("Error fetching history:", error);
+      }
+    };
+
+    fetchHistory();
+  }, []);
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
@@ -71,39 +81,38 @@ const GraphSearch: React.FC = () => {
   const handleAnalyzeClick = async () => {
     setLoading(true);
     setShowGraph(false);
-
-    // Prepare data for history logging
-// Replace with actual user ID from your state or context
-    const pageUrl = window.location.href; // Get the current page URL
-    const timestamp = new Date().toISOString(); // Current timestamp
+    setTimeout(() => {
+      setShowGraph(true);
+      setLoading(false);
+    }, 5000);
 
     // Send history data to API
-    try {
-      setTimeout(() => {
-        setShowGraph(true);
-        setLoading(false);
-      }, 5000);
-      await axios.post("/api/users/history", {
-        pageUrl,
-        timestamp,
-        searchTerm, // Pass the search term for the company name
-      });
+  // try {
+  //   const pageUrl = window.location.href; // Get the current page URL
+  //   const timestamp = new Date().toISOString(); // Current timestamp
+  //   // console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+  //   const response = await axios.post("/api/users/history", {
+  //     pageUrl,
+  //     timestamp,
+  //     searchTerm, // Pass the search term for the company name
+  //   });
 
-
-      console.log("Analyze data with graph", companyDetails);
-    } catch (error) {
-      console.error("Error recording history:", error);
-    }
+  //   console.log("History recorded successfully:", response.data);
+  // } catch (error) {
+  //   console.error("Error recording history:", error);
+  // }
   };
 
   return (
     <div className="flex flex-col h-screen w-screen bg-gradient-to-b from-indigo-600 to-purple-700">
-      <div className="bg-white shadow-2xl rounded-2xl p-4 md:p-6 flex flex-row flex-grow">
-        {/* Left Tile: Company Details */}
-        <div className="bg-gray-50 border border-gray-300 rounded-lg p-4 flex flex-col md:w-1/4 flex-grow h-full">
+      <div className="bg-white shadow-2xl rounded-2xl p-4 md:p-6 flex flex-grow">
+        {/* Left Tile: Company Details & History */}
+        <div className="bg-gray-50 border border-gray-300 rounded-lg p-4 flex flex-col w-1/4 min-h-0 overflow-y-auto">
           <h1 className="text-2xl font-bold text-center text-gray-900 mb-2">
             Search Company
           </h1>
+
+          {/* Search Input */}
           <div className="mb-2">
             <label
               htmlFor="search"
@@ -188,40 +197,46 @@ const GraphSearch: React.FC = () => {
               </div>
             </div>
           )}
+
+          {/* Display History Component */}
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold text-indigo-700 mb-1">
+              {/* Search History: */}
+            </h2>
+            {/* <History history={history} />{" "} */}
+            {/* Pass history data to History component */}
+          </div>
         </div>
 
-        {/* Right Tile: Graph and Analyze Button */}
-        <div className="bg-gray-50 border border-gray-300 rounded-lg p-4 flex flex-col md:w-3/4 flex-grow h-full">
+        {/* Right Tile: Graphs */}
+        <div className="bg-gray-50 border border-gray-300 rounded-lg p-4 flex flex-col flex-grow min-h-0 overflow-y-auto">
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-4">
             Graph
           </h2>
 
-          {/* Responsive Graphs Container */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-grow p-4">
             {loading ? (
               <div className="flex-grow flex items-center justify-center bg-gray-200 rounded-md border border-gray-400 h-full">
                 <p className="text-gray-600">Loading...</p>
               </div>
             ) : (
-              <>
-                {showGraph && companyDetails && (
-                  <>
-                    <div className="flex flex-col items-center">
-                      <MarketShareChart data={companyDetails} />
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <WrappedStockPriceChart data={companyDetails} />
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <RevenueChart data={companyDetails} />
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <ExpensesChart data={companyDetails} />
-                    </div>
-                    {/* Add more graphs here */}
-                  </>
-                )}
-              </>
+              showGraph &&
+              companyDetails && (
+                <>
+                  <div className="flex flex-col items-center">
+                    <MarketShareChart data={companyDetails} />
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <WrappedStockPriceChart data={companyDetails} />
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <RevenueChart data={companyDetails} />
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <ExpensesChart data={companyDetails} />
+                  </div>
+                </>
+              )
             )}
           </div>
 

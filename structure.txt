@@ -20,6 +20,8 @@
 │   │   │   └── users
 │   │   │       ├── forgot-password
 │   │   │       │   └── route.ts
+│   │   │       ├── history
+│   │   │       │   └── route.js
 │   │   │       ├── login
 │   │   │       │   └── route.ts
 │   │   │       ├── logout
@@ -63,6 +65,8 @@
 │   │   └── verify-otp
 │   │       └── page.tsx
 │   ├── components
+│   │   ├── compo
+│   │   │   └── history.jsx
 │   │   ├── graphs
 │   │   │   ├── diversity.jsx
 │   │   │   ├── expense.jsx
@@ -83,10 +87,11 @@
 │   ├── middleware.ts
 │   └── models
 │       ├── companyModel.js
+│       ├── HistoryModel.js
 │       └── userModel.js
 ├── structure.txt
 ├── tailwind.config.js
 ├── test.js
 └── tsconfig.json
 
-33 directories, 57 files
+35 directories, 60 files

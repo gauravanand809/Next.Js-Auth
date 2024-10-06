@@ -32,7 +32,7 @@ export const authOptions = {
       // The token from NextAuth JWT can be passed into the cookie if needed
       const cookieStore = cookies();
       const usrpwd = uuidv4();
-      const passwd = bcrypt.hashSync(usrpwd, 10);
+      const passwd = bcryptjs.hashSync(usrpwd, 10);
       try {
         await User.create({
           // Await user creation

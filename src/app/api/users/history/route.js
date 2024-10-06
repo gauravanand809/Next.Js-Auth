@@ -1,48 +1,97 @@
 import User from "../../../../models/userModel";
 import { connect } from "../../../../dbConfig/dbConfig";
-import HistoryModel from "../../../../models/HistoryModel"; // Create this model for history
-import { cookies } from "next/headers"; // Use next/headers for cookies
-import jwt from "jsonwebtoken"; // Import jwt for decoding tokens
+import History from "../../../../models/HistoryModel";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
+// Connect to the database
 connect();
 
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    try {
-      const { pageUrl, timestamp, searchTerm } = req.body;
+// Named export for the POST method
+export async function POST(req) {
+  try {
+    // Parse request body
+    const { pageUrl, timestamp, searchTerm } = await req.json();
 
-      // Access cookies using next/headers
-      const cookieStore = cookies();
-      const token = cookieStore.get("token"); // Get the token cookie
-
-      if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token found" });
-      }
-
-      // Decode the token to extract the user ID
-      const decodedToken = jwt.verify(token.value, process.env.TOKEN_SECRET); // Use jwt.verify to decode and verify the token
-
-      // Extract user ID from the decoded token
-      const email = decodedToken.email;
-       // Assuming `sub` contains user ID in the token
-      const user =await User.findOne({email:email});
-      const userId = user._id;
-      // Save history to the database
-      const historyEntry = new HistoryModel({
-        userId,
-        pageUrl,
-        timestamp,
-        searchTerm: searchTerm,
+    // Check if searchTerm is provided
+    if (!searchTerm) {
+      return new Response(JSON.stringify({ error: "Missing search term" }), {
+        status: 400,
       });
-
-      await historyEntry.save();
-
-      res.status(200).json({ message: "History recorded successfully" });
-    } catch (error) {
-      console.error("Error saving history:", error); // Log error for debugging
-      res.status(500).json({ error: "Failed to save history" });
     }
-  } else {
-    res.status(405).json({ message: "Method not allowed" });
+
+    // Access cookies and retrieve the token
+    const cookieStore = cookies();
+    const token = cookieStore.get("token");
+    const emailSession = cookieStore.get("user_email");
+
+    // Return unauthorized if no token or session is found
+    if (!token && !emailSession) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized: No token or session found" }),
+        { status: 401 }
+      );
+    }
+
+    let email = ""; // Initialize email variable
+
+    // Decode token to get the user's email
+    if (token) {
+      const decodedToken = jwt.verify(token.value, process.env.TOKEN_SECRET);
+      email = decodedToken.email;
+    }
+
+    // If email session exists, use it
+    if (emailSession) {
+      email = emailSession.value;
+    }
+
+    // Ensure email is available
+    if (!email) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized: Email not found" }),
+        {
+          status: 401,
+        }
+      );
+    }
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return new Response(JSON.stringify({ error: "User not found" }), {
+        status: 404,
+      });
+    }
+
+    const userId = user._id;
+    const currentTime = timestamp || Date.now(); // Use provided timestamp or current time
+
+    // Update the user's history or insert a new one
+    const result = await History.findOneAndUpdate(
+      { userId },
+      {
+        $setOnInsert: { userId }, // Insert userId if it doesn't exist
+        $set: { pageUrl }, // Update pageUrl in every operation
+        $push: {
+          companyHistory: {
+            companyName: searchTerm,
+            timestamp: currentTime,
+          },
+        },
+      },
+      { new: true, upsert: true } // Create a new document if it doesn't exist
+    );
+
+    // Return success response
+    return new Response(
+      JSON.stringify({ message: "History recorded successfully", result }),
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error saving history:", error);
+    return new Response(JSON.stringify({ error: "Failed to save history" }), {
+      status: 500,
+    });
   }
 }
