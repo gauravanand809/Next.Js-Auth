@@ -108,7 +108,7 @@ const GraphSearch: React.FC = () => {
       setShowGraph2024(true); // Show 2024 graphs
       setLoading(false);
       setPredict(false);
-    }, 10000); // 5-second delay for showing 2024 graphs
+    }, 30000); // 5-second delay for showing 2024 graphs
 
     // Send history data to API
     try {

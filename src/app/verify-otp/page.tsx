@@ -30,6 +30,11 @@ export default function OTPVerifyPage({ email }: OTPVerifyPageProps) {
         toast.success("OTP verified! Redirecting to profile...");
         setOtp(""); // Reset OTP input
         router.push("/profile");
+        setTimeout(() => {
+         window.location.reload();
+        }, 5000);
+        
+
       } else {
         toast.error("Invalid OTP");
       }

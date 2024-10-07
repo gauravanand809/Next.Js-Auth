@@ -50,6 +50,9 @@
 │   │   ├── forgot-password
 │   │   │   └── page.tsx
 │   │   ├── globals.css
+│   │   ├── histemp
+│   │   │   └── [companyName]
+│   │   │       └── page.jsx
 │   │   ├── layout.tsx
 │   │   ├── login
 │   │   │   └── page.tsx
@@ -61,6 +64,8 @@
 │   │   ├── reset-password
 │   │   │   └── page.jsx
 │   │   ├── search
+│   │   │   └── page.tsx
+│   │   ├── searchtemp
 │   │   │   └── page.tsx
 │   │   ├── signup
 │   │   │   └── page.tsx
@@ -107,4 +112,4 @@
 ├── test.js
 └── tsconfig.json
 
-39 directories, 69 files
+42 directories, 71 files

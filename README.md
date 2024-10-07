@@ -2,6 +2,10 @@
 
 This is a full-stack Next.js application implementing authentication features such as signup, login, password reset, email verification, and Google authentication using Next Auth. The project uses TypeScript, Tailwind CSS, and a MongoDB database.
 
+![Entry Page](image-2.png)
+![DashBoard](image.png)
+![History](image-1.png)
+
 ## Project Structure
 ```
 ├── src
@@ -13,22 +17,38 @@ This is a full-stack Next.js application implementing authentication features su
 │   │   │   └── users
 │   │   │       ├── forgot-password
 │   │   │       │   └── route.ts
+│   │   │       ├── history
+│   │   │       │   └── route.js
+│   │   │       ├── history_fetch
+│   │   │       │   └── route.js
 │   │   │       ├── login
 │   │   │       │   └── route.ts
 │   │   │       ├── logout
 │   │   │       │   └── route.ts
 │   │   │       ├── me
 │   │   │       │   └── route.ts
+│   │   │       ├── otp
+│   │   │       │   └── route.js
 │   │   │       ├── reset-password
 │   │   │       │   └── route.ts
+│   │   │       ├── search
+│   │   │       │   └── route.js
 │   │   │       ├── signup
 │   │   │       │   └── route.ts
-│   │   │       └── verifyemail
+│   │   │       ├── verifyemail
+│   │   │       │   └── route.ts
+│   │   │       └── verify-otp
 │   │   │           └── route.ts
+│   │   ├── Backtrack_to_History
+│   │   │   └── [companyName]
+│   │   │       └── page.jsx
 │   │   ├── favicon.ico
 │   │   ├── forgot-password
 │   │   │   └── page.tsx
 │   │   ├── globals.css
+│   │   ├── histemp
+│   │   │   └── [companyName]
+│   │   │       └── page.jsx
 │   │   ├── layout.tsx
 │   │   ├── login
 │   │   │   └── page.tsx
@@ -39,22 +59,50 @@ This is a full-stack Next.js application implementing authentication features su
 │   │   │   └── page.tsx
 │   │   ├── reset-password
 │   │   │   └── page.jsx
+│   │   ├── search
+│   │   │   └── page.tsx
+│   │   ├── searchtemp
+│   │   │   └── page.tsx
 │   │   ├── signup
 │   │   │   └── page.tsx
-│   │   └── verifyemail
+│   │   ├── verifyemail
+│   │   │   └── page.tsx
+│   │   └── verify-otp
 │   │       └── page.tsx
 │   ├── components
-│   │   └── SessionProviderWrapper.tsx
+│   │   ├── compo
+│   │   │   └── history.jsx
+│   │   ├── graphs
+│   │   │   ├── diversity.jsx
+│   │   │   ├── expense2024.jsx
+│   │   │   ├── expense.jsx
+│   │   │   ├── globalstock.jsx
+│   │   │   ├── market2024.jsx
+│   │   │   ├── market.jsx
+│   │   │   ├── revenue2024.jsx
+│   │   │   ├── revenue.jsx
+│   │   │   ├── stock2024.jsx
+│   │   │   └── stock.jsx
+│   │   ├── search.module.css
+│   │   ├── SessionProviderWrapper.tsx
+│   │   └── ui
+│   │       ├── progress.tsx
+│   │       └── skeleton.tsx
 │   ├── dbConfig
 │   │   └── dbConfig.ts
 │   ├── helpers
 │   │   ├── getDataFromToken.ts
 │   │   ├── mailer-reset.ts
-│   │   └── mailer.ts
+│   │   ├── mailer.ts
+│   │   ├── otp_mail.ts
+│   │   └── searchableDrop.js
+│   ├── lib
+│   │   └── utils.ts
 │   ├── middleware.ts
 │   └── models
+│       ├── companyModel.js
+│       ├── HistoryModel.js
 │       └── userModel.js
-
 
 ```
 ## Features

@@ -97,6 +97,8 @@ const GraphSearch: React.FC = () => {
     }
   };
 
+
+
   const handlePredictClick = async () => {
     setLoading(true);
     setShowGraph2024(false); // Ensure 2024 graphs are hidden initially
@@ -110,7 +112,7 @@ const GraphSearch: React.FC = () => {
       setShowGraph2024(true); // Show 2024 graphs
       setLoading(false);
       setPredict(false);
-    }, 10000); // 5-second delay for showing 2024 graphs
+    }, 120000); // 5-second delay for showing 2024 graphs
 
     // Send history data to API
     try {
@@ -256,13 +258,13 @@ const GraphSearch: React.FC = () => {
           </h2>
 
           {Predicting && (
-          <div className="flex flex-col items-center justify-center h-full">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-pink-500"></div>
-            <p className="text-black text-lg mt-4">
-              Predicting, please wait...
-            </p>
-          </div>
-        )}
+        <div className="flex flex-col items-center justify-center h-full">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-pink-500"></div>
+          <p className="text-black text-lg mt-4">
+            Predicting, please wait...
+          </p>
+        </div>
+      )}
 
           {(!showGraph && !showGraph2024 && !Predicting) && (
             <div className="flex flex-col items-center justify-center h-full">
