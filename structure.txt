@@ -1,4 +1,5 @@
 .
+├── components.json
 ├── csvjsona.js
 ├── csvjson.json
 ├── mongoDB_data.js
@@ -22,6 +23,8 @@
 │   │   │       │   └── route.ts
 │   │   │       ├── history
 │   │   │       │   └── route.js
+│   │   │       ├── history_fetch
+│   │   │       │   └── route.js
 │   │   │       ├── login
 │   │   │       │   └── route.ts
 │   │   │       ├── logout
@@ -40,6 +43,9 @@
 │   │   │       │   └── route.ts
 │   │   │       └── verify-otp
 │   │   │           └── route.ts
+│   │   ├── Backtrack_to_History
+│   │   │   └── [companyName]
+│   │   │       └── page.jsx
 │   │   ├── favicon.ico
 │   │   ├── forgot-password
 │   │   │   └── page.tsx
@@ -56,8 +62,6 @@
 │   │   │   └── page.jsx
 │   │   ├── search
 │   │   │   └── page.tsx
-│   │   ├── seee
-│   │   │   └── page.jsx
 │   │   ├── signup
 │   │   │   └── page.tsx
 │   │   ├── verifyemail
@@ -69,13 +73,20 @@
 │   │   │   └── history.jsx
 │   │   ├── graphs
 │   │   │   ├── diversity.jsx
+│   │   │   ├── expense2024.jsx
 │   │   │   ├── expense.jsx
 │   │   │   ├── globalstock.jsx
+│   │   │   ├── market2024.jsx
 │   │   │   ├── market.jsx
+│   │   │   ├── revenue2024.jsx
 │   │   │   ├── revenue.jsx
+│   │   │   ├── stock2024.jsx
 │   │   │   └── stock.jsx
 │   │   ├── search.module.css
-│   │   └── SessionProviderWrapper.tsx
+│   │   ├── SessionProviderWrapper.tsx
+│   │   └── ui
+│   │       ├── progress.tsx
+│   │       └── skeleton.tsx
 │   ├── dbConfig
 │   │   └── dbConfig.ts
 │   ├── helpers
@@ -84,6 +95,8 @@
 │   │   ├── mailer.ts
 │   │   ├── otp_mail.ts
 │   │   └── searchableDrop.js
+│   ├── lib
+│   │   └── utils.ts
 │   ├── middleware.ts
 │   └── models
 │       ├── companyModel.js
@@ -94,4 +107,4 @@
 ├── test.js
 └── tsconfig.json
 
-35 directories, 60 files
+39 directories, 69 files

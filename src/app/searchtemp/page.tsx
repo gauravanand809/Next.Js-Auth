@@ -15,6 +15,8 @@ import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 
 
+
+
 const GraphSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [companyDetails, setCompanyDetails] = useState<any>(null);
@@ -303,56 +305,56 @@ const GraphSearch: React.FC = () => {
                 </div>
                 
 
-                <div className="flex flex-col p-4 border border-gray-300 rounded-lg shadow-sm">
-                  <h3 className="text-lg font-semibold text-gray-800">Company Metrics Overview</h3>
-                  <table className="min-w-full mt-4">
-                    <thead>
-                      <tr className="bg-gray-100">
-                        <th className="border px-4 py-2">Metric</th>
-                        <th className="border px-4 py-2">Domestic</th>
-                        <th className="border px-4 py-2">Global</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="border px-4 py-2">Greater Market Share</td>
-                        <td className="border px-4 py-2">{companyDetails.Greater_Market_Share_Domestic}</td>
-                        <td className="border px-4 py-2">{companyDetails.Greater_Market_Share_Global}</td>
-                      </tr>
-                      <tr>
-                        <td className="border px-4 py-2">Greater Revenue</td>
-                        <td className="border px-4 py-2">{companyDetails.Greater_Revenue_Domestic}</td>
-                        <td className="border px-4 py-2">{companyDetails.Greater_Revenue_Global}</td>
-                      </tr>
-                      <tr>
-                        <td className="border px-4 py-2">Greater Expenses</td>
-                        <td className="border px-4 py-2">{companyDetails.Greater_Expense_Domestic}</td>
-                        <td className="border px-4 py-2">{companyDetails.Greater_Expense_Global}</td>
-                      </tr>
-                      <tr>
-                        <td className="border px-4 py-2">Greater Stock Price</td>
-                        <td className="border px-4 py-2">{companyDetails.Greater_Stock_Price_Domestic}</td>
-                        <td className="border px-4 py-2">{companyDetails.Greater_Stock_Price_Global}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+  <div className="flex flex-col p-4 border border-gray-300 rounded-lg shadow-sm">
+    <h3 className="text-lg font-semibold text-gray-800">Company Metrics Overview</h3>
 
-                <div className="flex flex-col p-4 border border-gray-300 rounded-lg shadow-sm">
-  <h3 className="text-lg font-semibold text-gray-800">Other Insights</h3>
-  <table className="min-w-full mt-4">
-    <tbody>
-      <tr>
-        <td className="border px-4 py-2">Total Companies in Same Country:</td>
-        <td className="border px-4 py-2">{companyDetails.Company_Count}</td>
-      </tr>
-      <tr>
-        <td className="border px-4 py-2">Companies with Higher Diversity Score:</td>
-        <td className="border px-4 py-2">{companyDetails.Greater_Diversity_Count}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <div className="mt-4">
+      {[
+        {
+          label: "Market Share",
+          domestic: companyDetails.Greater_Market_Share_Domestic,
+          global: companyDetails.Greater_Market_Share_Global,
+        },
+        {
+          label: "Revenue",
+          domestic: companyDetails.Greater_Revenue_Domestic,
+          global: companyDetails.Greater_Revenue_Global,
+        },
+        {
+          label: "Expenses",
+          domestic: companyDetails.Greater_Expense_Domestic,
+          global: companyDetails.Greater_Expense_Global,
+        },
+        {
+          label: "Stock Price",
+          domestic: companyDetails.Greater_Stock_Price_Domestic,
+          global: companyDetails.Greater_Stock_Price_Global,
+        },
+      ].map((metric, index) => (
+        <div key={index} className="flex items-center mb-4">
+          <div className="w-1/2 text-left pr-2">{metric.label}</div>
+          <div className="w-full">
+            <div className="flex">
+              <div
+                className="bg-blue-500 h-6"
+                style={{
+                  width: `${(metric.domestic / 1000) * 100}%`,
+                  transition: "width 0.3s ease",
+                }}
+              />
+              <div
+                className="bg-green-500 h-6"
+                style={{
+                  width: `${(metric.global / 1000) * 100}%`,
+                  transition: "width 0.3s ease",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
 
 
 

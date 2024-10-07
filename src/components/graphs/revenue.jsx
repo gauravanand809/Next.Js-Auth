@@ -17,12 +17,15 @@ const RevenueChart = ({ data }) => {
   }
 
   // Map over the data to extract revenue information
-  const revenueData = Object.keys(data)
-    .filter((key) => key.startsWith("Revenue_")) // Filter only the revenue columns
-    .map((key) => ({
-      year: key.split("_")[1], // Extract the year from the column name (e.g., "2015" from "Revenue_2015")
-      revenue: parseFloat(data[key].replace(/[^\d.-]/g, "")) || 0, // Clean the revenue values, keeping the number
-    }));
+const revenueData = Object.keys(data)
+  .filter(
+    (key) => key.startsWith("Revenue_") && parseInt(key.split("_")[1]) <= 2024
+  ) // Filter only the revenue columns for 2024 and earlier
+  .map((key) => ({
+    year: key.split("_")[1], // Extract the year from the column name (e.g., "2024" from "Revenue_2024")
+    revenue: parseFloat(data[key].replace(/[^\d.-]/g, "")) || 0, // Clean the revenue values, keeping the number
+  }));
+
 
   return (
     <ResponsiveContainer width="100%" height={400}>

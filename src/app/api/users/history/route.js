@@ -73,6 +73,8 @@ export async function POST(req) {
       {
         $setOnInsert: { userId }, // Insert userId if it doesn't exist
         $set: { pageUrl }, // Update pageUrl in every operation
+
+        // Push the new company history to the array
         $push: {
           companyHistory: {
             companyName: searchTerm,
@@ -82,6 +84,16 @@ export async function POST(req) {
       },
       { new: true, upsert: true } // Create a new document if it doesn't exist
     );
+
+    // Cache the company name, date, and time in the browser
+    if (typeof window !== "undefined") {
+      const cacheData = {
+        companyName: searchTerm,
+        date: new Date(currentTime).toLocaleDateString(),
+        time: new Date(currentTime).toLocaleTimeString(),
+      };
+      localStorage.setItem("companyCache", JSON.stringify(cacheData));
+    }
 
     // Return success response
     return new Response(

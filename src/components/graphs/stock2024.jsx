@@ -1,13 +1,14 @@
 import React from "react";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Dot,
 } from "recharts";
 
 // Error boundary component
@@ -72,46 +73,52 @@ const StockPriceChart = ({ data }) => {
   }
 
   // Prepare stock price data
-const stockData = Object.keys(data)
-  .filter(
-    (key) =>
-      key.startsWith("Stock_Price_") && parseInt(key.split("_")[2]) <= 2024 // Filter for stock prices from 2024 and earlier
-  )
-  .map((key) => ({
-    year: key.split("_")[2], // Extract the year from the column name (e.g., "2024" from "Stock_Price_2024")
-    stock_price: parseStockPrice(data[key]), // Use the parse function to get a number
-  }));
+  const stockData = Object.keys(data)
+    .filter(
+      (key) =>
+        key.startsWith("Stock_Price_") && parseInt(key.split("_")[2]) >= 2024 // Filter for stock prices from 2024 onwards
+    )
+    .map((key) => ({
+      year: key.split("_")[2], // Extract the year from the column name (e.g., "2024" from "Stock_Price_2024")
+      stock_price: parseStockPrice(data[key]), // Use the parse function to get a number
+    }));
 
+  // Find min and max stock price to customize Y-axis range
+  const stockPrices = stockData.map((entry) => entry.stock_price);
+  const minPrice = Math.min(...stockPrices);
+  const maxPrice = Math.max(...stockPrices);
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={stockData}>
+      <AreaChart data={stockData}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey="year"
-          angle={-45} // Rotate the X-axis labels by -45 degrees
-          textAnchor="end" // Align the text to the end of the rotated tick
-          interval={0} // Show all ticks
+        <XAxis dataKey="year" />
+        <YAxis
+          domain={[minPrice * 0.95, maxPrice * 1.08]} // Add buffer to min and max prices
+          tickCount={10} // Increase the number of ticks for better granularity
+          tickFormatter={formatStockPrice} // Format Y-axis ticks
         />
-        <YAxis tickFormatter={formatStockPrice} /> {/* Use the format function here */}
-        <Tooltip formatter={(value) => formatStockPrice(value)} /> {/* Format tooltip values */}
+        <Tooltip formatter={(value) => formatStockPrice(value)} />
+        {/* Format tooltip values */}
         <Legend />
-        <Line
+        <Area
           type="monotone"
           dataKey="stock_price"
           stroke="#8884d8"
-          activeDot={{ r: 8 }}
+          fill="#8884d8"
+          activeDot={{ r: 8 }} // Highlight active dots
+          dot={{ r: 5, stroke: "#8884d8", strokeWidth: 2, fill: "white" }} // Add markers (dots)
         />
-      </LineChart>
+      </AreaChart>
     </ResponsiveContainer>
   );
 };
 
 // Wrapping the StockPriceChart with ErrorBoundary
-const WrappedStockPriceChart = (props) => (
+const WrappedStockPriceChart2024 = (props) => (
   <ErrorBoundary>
     <StockPriceChart {...props} />
   </ErrorBoundary>
 );
 
-export default WrappedStockPriceChart;
+export default WrappedStockPriceChart2024;

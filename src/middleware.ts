@@ -25,11 +25,13 @@ export async function middleware(request: NextRequest) {
 // Configuration for middleware matcher
 export const config = {
   matcher: [
-    "/",
+    // "/",
     "/profile",
     "/login",
     "/signup",
     "/verifyemail",
+    "/search",
+    "/Backtrack_to_History",
     // Add other routes as necessary
   ],
 };

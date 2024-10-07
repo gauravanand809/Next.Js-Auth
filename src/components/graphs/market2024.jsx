@@ -10,19 +10,19 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const MarketShareChart = ({ data }) => {
+const MarketShareChart2024 = ({ data }) => {
   // Extract market share data from the provided data prop
   if (!data || typeof data !== "object") {
     return <p>No data available</p>; // Return a fallback message if data is null or invalid
   }
-  
+
 const marketShareData = Object.keys(data)
   .filter(
     (key) =>
-      key.startsWith("Market_share_") && parseInt(key.split("_")[2]) <= 2024
-  ) // Filter only the market share columns for 2024 and earlier
+      key.startsWith("Market_share_") && parseInt(key.split("_")[2]) >= 2024
+  ) // Filter only market share columns up to the year 2024
   .map((key) => ({
-    year: key.split("_")[2], // Extract the year from the column name (e.g., "2024" from "Market_share_2024")
+    year: key.split("_")[2], // Extract the year from the column name
     market_share: data[key], // Get the market share value
   }));
 
@@ -51,4 +51,4 @@ const marketShareData = Object.keys(data)
   );
 };
 
-export default MarketShareChart;
+export default MarketShareChart2024;

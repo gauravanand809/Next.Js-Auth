@@ -17,18 +17,25 @@ const ExpensesChart = ({ data }) => {
   }
 
   // Map over the data to extract expense information
-  const expenseData = Object.keys(data)
-    .filter((key) => key.startsWith("Expense_")) // Filter only the expense columns
-    .map((key) => ({
-      year: key.split("_")[1], // Extract the year from the column name (e.g., "2015" from "Expense_2015")
-      expense: parseFloat(data[key].replace(/[^\d.-]/g, "")) || 0, // Remove currency symbols and handle NaN
-    }));
+const expenseData = Object.keys(data)
+  .filter(
+    (key) => key.startsWith("Expense_") && parseInt(key.split("_")[1]) <= 2024
+  ) // Filter only the expense columns for 2024 and earlier
+  .map((key) => ({
+    year: key.split("_")[1], // Extract the year from the column name (e.g., "2024" from "Expense_2024")
+    expense: parseFloat(data[key].replace(/[^\d.-]/g, "")) || 0, // Remove currency symbols and handle NaN
+  }));
 
   return (
     <ResponsiveContainer width="100%" height={400}>
       <LineChart data={expenseData}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" />
+        <XAxis
+          dataKey="year"
+          angle={-45} // Rotate the X-axis labels by -45 degrees
+          textAnchor="end" // Align the text to the end of the rotated tick
+          interval={0} // Show all ticks
+        />
         <YAxis
           tickFormatter={(value) => `$${value}M`} // Format Y-axis with "$" in front and "M" at the end
         />
