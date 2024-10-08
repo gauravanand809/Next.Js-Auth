@@ -32,7 +32,7 @@ export default function OTPVerifyPage({ email }: OTPVerifyPageProps) {
         router.push("/profile");
         setTimeout(() => {
          window.location.reload();
-        }, 5000);
+        }, 2000);
         
 
       } else {
