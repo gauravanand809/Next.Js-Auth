@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 // Connect to the database
 connect();
 
-// Named export for the POST method
 export async function POST(req) {
   try {
     // Parse request body
@@ -20,10 +19,12 @@ export async function POST(req) {
       });
     }
 
-    // Access cookies and retrieve the token
+    // Access cookies and retrieve the token and email from session
     const cookieStore = cookies();
-    const token = cookieStore.get("token");
-    const emailSession = cookieStore.get("user_email");
+    const token = cookieStore.get("token")?.value;
+    const emailSession = cookieStore.get("user_email")?.value || null;
+
+    console.log("user_email from session:", emailSession);
 
     // Return unauthorized if no token or session is found
     if (!token && !emailSession) {
@@ -33,26 +34,26 @@ export async function POST(req) {
       );
     }
 
-    let email = ""; // Initialize email variable
+    let email = emailSession || ""; // Initialize email from session, if available
 
-    // Decode token to get the user's email
-    if (token) {
-      const decodedToken = jwt.verify(token.value, process.env.TOKEN_SECRET);
-      email = decodedToken.email;
-    }
-
-    // If email session exists, use it
-    if (emailSession) {
-      email = emailSession.value;
+    // Decode JWT token if session email is not available
+    if (!email && token) {
+      try {
+        const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+        email = decodedToken.email;
+        console.log("Decoded email from token:", email);
+      } catch (err) {
+        return new Response(JSON.stringify({ error: "Invalid token" }), {
+          status: 401,
+        });
+      }
     }
 
     // Ensure email is available
     if (!email) {
       return new Response(
         JSON.stringify({ error: "Unauthorized: Email not found" }),
-        {
-          status: 401,
-        }
+        { status: 401 }
       );
     }
 
@@ -85,7 +86,7 @@ export async function POST(req) {
       { new: true, upsert: true } // Create a new document if it doesn't exist
     );
 
-    // Cache the company name, date, and time in the browser
+    // Optionally cache the company name, date, and time in the browser (for client-side use)
     if (typeof window !== "undefined") {
       const cacheData = {
         companyName: searchTerm,
@@ -102,8 +103,12 @@ export async function POST(req) {
     );
   } catch (error) {
     console.error("Error saving history:", error);
-    return new Response(JSON.stringify({ error: "Failed to save history" }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({
+        error: "Failed to save history",
+        details: error.message,
+      }),
+      { status: 500 }
+    );
   }
 }
