@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    devIndicators: {
-        autoPrerender: false,
-    },
+  devIndicators: {
+    buildActivity: true,
+    buildActivityPosition: "bottom-right",
+  },
 };
 
 module.exports = nextConfig;

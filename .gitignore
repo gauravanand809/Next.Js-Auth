@@ -37,3 +37,7 @@ test.js
 *.tsbuildinfo
 next-env.d.ts
 
+
+/test.js
+/src/app/histemp
+/src/app/searchtemp

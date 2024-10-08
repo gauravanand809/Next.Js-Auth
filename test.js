@@ -1,3 +1,5 @@
+const { notDeepEqual } = require("assert");
+
 function generateRandomString(length) {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -62,3 +64,5 @@ const companySchema = new mongoose.Schema({
   Market_Share_2023: mongoose.Schema.Types.Mixed,
   Market_Share_2024: mongoose.Schema.Types.Mixed,
 });
+
+// h9i
