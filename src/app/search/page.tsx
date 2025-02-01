@@ -66,6 +66,7 @@ const GraphSearch: React.FC = () => {
       });
       setLoading(true);
       setCompanyDetails(response.data);
+      handleAnalyzeClick();
       setError("");
     } catch (error: any) {
       setCompanyDetails(null);
@@ -108,7 +109,7 @@ const GraphSearch: React.FC = () => {
       setShowGraph2024(true); // Show 2024 graphs
       setLoading(false);
       setPredict(false);
-    }, 30000); // 5-second delay for showing 2024 graphs
+    }, 5000); // 5-second delay for showing 2024 graphs
 
     // Send history data to API
     try {
