@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import User from "@/models/userModel";
 import {connect} from '@/dbConfig/dbConfig'
 connect();
-export const authOptions = {
+const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,

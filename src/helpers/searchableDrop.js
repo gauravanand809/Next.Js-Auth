@@ -41,7 +41,7 @@ const SearchableDropdown = ({
       const value = option[label] || ""; // Default to empty string if undefined
       return value.toLowerCase().includes(query.toLowerCase());
     });
-  }, [query, options]);
+  }, [query, options,label]);
 
   // Limit the displayed options to 5
   const limitedOptions = filteredOptions.slice(0, 5); // Adjust the number as needed

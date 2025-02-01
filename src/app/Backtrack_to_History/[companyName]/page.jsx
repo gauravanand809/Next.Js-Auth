@@ -22,25 +22,26 @@ const BacktrackToHistory = ({ params }) => {
   const graphsPerPage = 4; // Define how many graphs you want per page
 
   useEffect(() => {
-    if (companyName) {
-      handleSearchClick();
-    }
+    if (!companyName) return;
+  
+    const fetchCompanyDetails = async () => {
+      setLoading(true);
+      setError("");
+  
+      try {
+        const response = await axios.post(`/api/users/search`, { companyName });
+        setCompanyDetails(response.data);
+      } catch (error) {
+        setCompanyDetails(null);
+        setError("Error fetching company details. Please try again.");
+        console.error("Error fetching data: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchCompanyDetails();
   }, [companyName]);
-
-  const handleSearchClick = async () => {
-    setLoading(true);
-    setError(""); // Clear any previous errors
-    try {
-      const response = await axios.post(`/api/users/search`, { companyName });
-      setCompanyDetails(response.data);
-    } catch (error) {
-      setCompanyDetails(null);
-      setError("Error fetching company details. Please try again.");
-      console.error("Error fetching data: ", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Pagination handlers
   const handleNextPage = () => {
@@ -54,13 +55,13 @@ const BacktrackToHistory = ({ params }) => {
   // Determine which graphs to show on the current page
   const getCurrentGraphs = () => {
     const allGraphs = [
-      <MarketShareChart data={companyDetails} />,
-      <RevenueChart data={companyDetails} />,
-      <ExpensesChart data={companyDetails} />,
-      <WrappedStockPriceChart data={companyDetails} />,
-      <RevenueChart2024 data={companyDetails} />,
-      <ExpensesChart2024 data={companyDetails} />,
-      <WrappedStockPriceChart2024 data={companyDetails} />,
+      <MarketShareChart key="market-share" data={companyDetails} />,
+      <RevenueChart key="revenue" data={companyDetails} />,
+      <ExpensesChart key="expenses" data={companyDetails} />,
+      <WrappedStockPriceChart key="stock-price" data={companyDetails} />,
+      <RevenueChart2024 key="revenue-2024" data={companyDetails} />,
+      <ExpensesChart2024 key="expenses-2024" data={companyDetails} />,
+      <WrappedStockPriceChart2024 key="stock-price-2024" data={companyDetails} />,
     ];
 
     const startIndex = (currentPage - 1) * graphsPerPage;

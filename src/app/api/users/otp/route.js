@@ -23,7 +23,7 @@ function generateRandomString(length) {
   return result;
 }
 
-export default async function GET(request) {
+export async function GET(request) {
   const token = request.cookies.get("token")?.value;
 
   if (!token) {

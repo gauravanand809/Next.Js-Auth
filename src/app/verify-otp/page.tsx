@@ -3,27 +3,27 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { useSearchParams } from 'next/navigation'; // Import useSearchParams
+import { useSearchParams } from "next/navigation"; // Import useSearchParams
 
-interface OTPVerifyPageProps {
-  email: string;
-}
-
-export default function OTPVerifyPage({ email }: OTPVerifyPageProps) {
-  const router = useRouter(); const searchParams = useSearchParams(); 
+export default function OTPVerifyPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const pemail = searchParams.get("email");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
+
   console.log(pemail);
+
   const handleOTPVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    try {console.log("Email:", pemail, "OTP:", otp);
+    try {
+      console.log("Email:", pemail, "OTP:", otp);
 
       const response = await axios.post("/api/users/verify-otp", {
-        email:pemail,
-        otp:otp,
+        email: pemail,
+        otp: otp,
       });
 
       if (response.data.success) {
@@ -31,10 +31,8 @@ export default function OTPVerifyPage({ email }: OTPVerifyPageProps) {
         setOtp(""); // Reset OTP input
         router.push("/profile");
         setTimeout(() => {
-         window.location.reload();
+          window.location.reload();
         }, 2000);
-        
-
       } else {
         toast.error("Invalid OTP");
       }
@@ -55,10 +53,7 @@ export default function OTPVerifyPage({ email }: OTPVerifyPageProps) {
         <hr className="mb-6" />
 
         <form onSubmit={handleOTPVerify}>
-          <label
-            htmlFor="otp"
-            className="block text-gray-700 font-semibold mb-2"
-          >
+          <label htmlFor="otp" className="block text-gray-700 font-semibold mb-2">
             OTP
           </label>
           <input
