@@ -33,7 +33,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       },
     });
 
-    const verificationUrl = `http://${process.env.DOMAIN}/verifyemail?token=${token}`;
+    const verificationUrl = `${process.env.DOMAIN}/verifyemail?token=${token}`;
 
     const mailOptions = {
       from: "support@feedback360.xyz",

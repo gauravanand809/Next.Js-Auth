@@ -26,7 +26,7 @@ export const sendEmail = async ({ email, userId }: any) => {
       },
     });
 
-    const verificationUrl = `http://${process.env.DOMAIN}/reset-password?token=${token}`;
+    const verificationUrl = `${process.env.DOMAIN}/reset-password?token=${token}`;
 
     const mailOptions = {
       from: "support@feedback360.xyz",

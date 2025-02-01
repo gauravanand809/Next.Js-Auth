@@ -33,7 +33,7 @@ export const sendEmail = async ({ email, userId }: any) => {
     });
 
     // Verification URL to send via email
-    const verificationUrl = `http://${process.env.DOMAIN}/verify-otp?token=${token}`;
+    const verificationUrl = `${process.env.DOMAIN}/verify-otp?token=${token}`;
 
     const mailOptions = {
       from: "support@feedback360.xyz",
