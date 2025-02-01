@@ -63,6 +63,9 @@ const authOptions = {
       // Redirect logic based on verification status
       const session = await getSession();
       console.log(session);
+      if (session) {
+        return `${baseUrl}/profile`;
+      }
       return url.startsWith(baseUrl) ? `${baseUrl}/profile` : baseUrl;
     },
   },
